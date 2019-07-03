@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  padding:1%;
+}
+.buttonstyle
+{
+width: 120px;
+height:40px;
+float:right;
+color: black;
+
+}
+
+.topnav a {
+ 
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 51px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.title{
+ padding:5% 1% 5% 5%;
+ }
+
+.active{
+float:left;
+}
+
+div {
+  border-radius: 5px;
+  padding: 20px;
+}
+
+
+
+input[type=text] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #333333fc;
+    border-radius: inherit;
+    box-sizing: border-box;
+}
+
+textarea {
+    padding: 50px 70px;
+    width:100%;
+    padding: 5%;
+    border: 3px;
+    border: 1px solid #333333fc;
+}
+
+input[type=Submit] {
+  float:right;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+   border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type=Cancel] {
+  float: right;
+    background-color:#ea220d;
+    color: white;
+    padding: 13px 18px;
+    margin: 8px 0;
+    width: 7%;
+    margin-left: 9px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.kind{
+    padding: 1% 5% 4% 5%;
+background-image: radial-gradient(red, yellow, #2a332a);
+
+}
+loat:right;
+} 
+fetch i
+ {
+ font-size:30px;
+ float:right;
+ }
+ @media only screen and (max-width: 600px) {
+.kind{
+    padding: 1% 5% 12% 5%;
+}
+.buttonstyle {
+    width: 74px;
+    height: 27px;
+    float: right;
+    color: black;
+}
+.topnav a {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 7px 51px;
+    text-decoration: none;
+    font-size: 12px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="topnav" id="myTopnav">
+  <a href="#home" class="active">Blog Assignment</a>
+  <a ><button class="buttonstyle" onclick="myfunction()"> Create</button></a>
+  
+ </div>
+<div id="titlearr"></div>
+ <div class="kind" id="kind">
+    <h2> Create Blog</h2>
+    <input type="text" id="title" name="firstname" placeholder="Title" >
+	<input type="hidden" id="lid" name="" placeholder="">
+    <textarea  id="paragraph" placeholder="Contents"></textarea>
+	<input type="button" value="Cancel" style="float:right;margin-left:10px;width:70px;height:30px;background-color:#FF0000;color:#ffffff" onClick="back()" >
+	<input type="button" value="Submit" onclick="store()" style="float:right;margin-left:10px;width:70px;height:30px;background-color:#008000;color:#ffffff">
+	
+	
+	
+</div>
+
+<div id="display"></div>
+
+<script  type="text/javascript">
+ 
+		document.getElementById("kind").style.display="none";
+		
+		//function for dynamically fetching the title and content values//
+		var storedNames = JSON.parse(localStorage.getItem("Titledp"));
+			for (var i = 0; i < storedNames.length; i++){
+				var result=JSON.parse(storedNames[i]);
+				var displaytitle='<div class="fetch" id="fetch"><input type="text" id="title" name="firstname" readonly placeholder="Title" value="'+result.Title+'"><i class="glyphicon glyphicon-edit" id="edit'+i+'" onclick="edit('+i+')" style="font-size:30px;float:right"></i><textarea  id="paragraph"  readonly placeholder="Contents" >'+result.Content+'</textarea></div>';
+				$('#display').append(displaytitle);
+			}  
+		//ends//
+
+	    function myfunction(){
+		    document.getElementById("kind").style.display="block";
+		    document.getElementById("myTopnav").style.display="none";
+		    document.getElementById("display").style.display="none";
+	    }
+	    
+		var arr = JSON.parse(localStorage.getItem("Titledp"));
+		if( arr === null)
+		{
+			arr = [];
+	    }
+
+		//Submit click function starts//
+
+		function store() 
+		{	
+			var inputtitle = document.getElementById("title").value;
+			var inputcontent = document.getElementById("paragraph").value;
+			var lid=document.getElementById("lid").value;
+   
+			if(inputtitle == null || inputtitle == "")
+			{
+				alert("Please Enter Title");
+			}
+			else if(inputcontent == null  || inputcontent == "")
+			{
+				alert("Please Enter Content");
+			}
+			else{
+				if(lid == null || lid == ""){
+					var client = JSON.stringify({
+						Title    : inputtitle,
+						Content  : inputcontent
+					});
+   
+					arr.push(client);
+					localStorage.setItem("Titledp", JSON.stringify(arr));
+					document.getElementById("kind").style.display="none";
+					document.getElementById("myTopnav").style.display="block";
+					document.getElementById("display").style.display="block";
+					location.reload();
+				}
+				else
+				{
+					arr[lid]=JSON.stringify({
+						Title    : inputtitle,
+						Content  : inputcontent
+					});
+					localStorage.setItem("Titledp", JSON.stringify(arr));
+					document.getElementById("kind").style.display="none";
+					document.getElementById("myTopnav").style.display="block";
+					document.getElementById("display").style.display="block";
+					location.reload();
+					console.log(arr);
+				}
+			}
+		}
+   
+		//ends//
+  
+		function edit(i){
+			document.getElementById("kind").style.display="block";
+			document.getElementById("myTopnav").style.display="none";
+			document.getElementById("display").style.display="none";
+			var storedNames = JSON.parse(localStorage.getItem("Titledp"));
+			var result=JSON.parse(storedNames[i]);
+			console.log(result);
+			document.getElementById("title").value=result.Title;
+			document.getElementById("paragraph").value=result.Content;
+			document.getElementById("lid").value=i;
+		}
+		
+		function back(){
+		           document.getElementById("kind").style.display="none";
+					document.getElementById("myTopnav").style.display="block";
+					document.getElementById("display").style.display="block";
+					location.reload();
+		}
+</script>
+
+
+
+
+
+</body>
+</html>
